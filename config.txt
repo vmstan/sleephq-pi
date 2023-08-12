@@ -1,4 +1,0 @@
-cpapDataDirectoryPath=/Volumes/Air32
-o2DataDirectoryPath=/Users/mstanclift/Documents/O2
-sleepUsername=mx@vmstan.com
-sleepPassword=wawTi3-xynnox-zesceh

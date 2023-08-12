@@ -1,0 +1,4 @@
+cpapDataDirectoryPath=/Volumes/Air32
+o2DataDirectoryPath=/Users/You/Documents/O2
+sleepUsername=you@gmail.com
+sleepPassword=12345678
