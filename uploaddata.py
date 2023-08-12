@@ -6,16 +6,41 @@
 ################################################################################################################
 
 import time
+import zipfile
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
-# Path to the latest data file
-dataFilePath = "/home/erik/sleephq-backup/current.zip"
+# Path to the configuration file
+configFilePath = 'config.txt'
 
-# My SleepHQ Credentials
-sleepUsername = ""
-sleepPassword = ""
+# Read the configuration file
+with open(configFilePath, 'r') as file:
+    lines = file.readlines()
+    for line in lines:
+        key, value = line.strip().split('=')
+        if key == 'dataDirectoryPath':
+            dataDirectoryPath = value
+        elif key == 'sleepUsername':
+            sleepUsername = value
+        elif key == 'sleepPassword':
+            sleepPassword = value
+
+# Check if variables were set correctly
+if not all([dataDirectoryPath, sleepUsername, sleepPassword]):
+    print("ERROR: Configuration not set correctly. Check the config file.")
+    exit()
+
+# Create a zip file from the directory
+zipFilePath = '/tmp/data.zip'
+with zipfile.ZipFile(zipFilePath, 'w') as zipf:
+    for root, _, files in os.walk(dataDirectoryPath):
+        for file in files:
+            zipf.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), dataDirectoryPath))
+
+# Set the dataFilePath variable to the created zip file
+dataFilePath = zipFilePath
 
 driver = webdriver.Chrome()
 driver.get('https://sleephq.com/users/sign_in')

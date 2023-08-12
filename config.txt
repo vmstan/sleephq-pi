@@ -1,0 +1,3 @@
+dataDirectoryPath=/Volumes/Air32
+sleepUsername=mx@vmstan.com
+sleepPassword=wawTi3-xynnox-zesceh
