@@ -20,24 +20,26 @@ with open(configFilePath, 'r') as file:
     lines = file.readlines()
     for line in lines:
         key, value = line.strip().split('=')
-        if key == 'dataDirectoryPath':
-            dataDirectoryPath = value
+        if key == 'cpapDataDirectoryPath':
+            cpapDataDirectoryPath = value
+        elif key == 'o2DataDirectoryPath':
+            o2DataDirectoryPath = value
         elif key == 'sleepUsername':
             sleepUsername = value
         elif key == 'sleepPassword':
             sleepPassword = value
 
 # Check if variables were set correctly
-if not all([dataDirectoryPath, sleepUsername, sleepPassword]):
+if not all([cpapDataDirectoryPath, sleepUsername, sleepPassword]):
     print("ERROR: Configuration not set correctly. Check the config file.")
     exit()
 
 # Create a zip file from the directory
 zipFilePath = '/tmp/data.zip'
 with zipfile.ZipFile(zipFilePath, 'w') as zipf:
-    for root, _, files in os.walk(dataDirectoryPath):
+    for root, _, files in os.walk(cpapDataDirectoryPath):
         for file in files:
-            zipf.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), dataDirectoryPath))
+            zipf.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), cpapDataDirectoryPath))
 
 # Set the dataFilePath variable to the created zip file
 dataFilePath = zipFilePath
